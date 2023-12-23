@@ -8,5 +8,5 @@ sealed class Resource<out T>() {
         val isNetworkError: Boolean,
         val errorCode: Int?,
         val erroeBody: ResponseBody?
-    )
+    ) : Resource<Nothing>()
 }
