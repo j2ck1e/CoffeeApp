@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.jcdesign.coffeeapp.presentation.auth.LoginFragment"
+        android:name="com.jcdesign.coffeeapp.presentation.ui.auth.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.jcdesign.coffeeapp.presentation.auth.RegisterFragment"
+        android:name="com.jcdesign.coffeeapp.presentation.ui.auth.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
 

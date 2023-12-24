@@ -1,4 +1,4 @@
-package com.jcdesign.coffeeapp.presentation.auth
+package com.jcdesign.coffeeapp.presentation.ui.auth
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
