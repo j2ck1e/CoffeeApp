@@ -1,6 +1,5 @@
 package com.jcdesign.coffeeapp.presentation.ui.auth
 
-import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

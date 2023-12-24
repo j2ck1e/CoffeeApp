@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RemoteDataSource {
     companion object {
-        private const val BASE_URL = "http://147.78.66.203:3210"
+        private const val BASE_URL = "http://147.78.66.203:3210/"
     }
 
     fun <Api> buildApi(
@@ -19,9 +19,9 @@ class RemoteDataSource {
             .baseUrl(BASE_URL)
             .client(
                 OkHttpClient.Builder().also { client ->
-                    if(BuildConfig.DEBUG) {
+                    if (BuildConfig.DEBUG) {
                         val logging = HttpLoggingInterceptor()
-                        logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
+                        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
                         client.addInterceptor(logging)
                     }
                 }.build()
