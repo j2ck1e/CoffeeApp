@@ -57,6 +57,7 @@ dependencies {
     // Coroutine Lifecycle Scopes
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.2"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.2"
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
@@ -66,4 +67,6 @@ dependencies {
     // Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.7.4'
     implementation 'androidx.navigation:navigation-ui-ktx:2.7.4'
+
+    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha01"
 }
