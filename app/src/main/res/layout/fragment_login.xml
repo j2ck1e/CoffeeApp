@@ -62,4 +62,9 @@
         android:text="@string/enter"
         android:textSize="18sp"/>
 
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>
