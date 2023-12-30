@@ -13,6 +13,7 @@ import com.jcdesign.coffeeapp.data.repository.AuthRepository
 import com.jcdesign.coffeeapp.databinding.FragmentLoginBinding
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
 import com.jcdesign.coffeeapp.presentation.ui.enable
+import com.jcdesign.coffeeapp.presentation.ui.handleApiError
 import com.jcdesign.coffeeapp.presentation.ui.home.HomeActivity
 import com.jcdesign.coffeeapp.presentation.ui.startNewActivity
 import com.jcdesign.coffeeapp.presentation.ui.visible
@@ -28,21 +29,15 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
         binding.loginBtn.enable(false)
 
         viewModel.loginResponse.observe(viewLifecycleOwner, Observer {
-            binding.progressbar.visible(false)
-            when (it) {
-                is Resource.Success -> {
-
+            binding.progressbar.visible(it is Resource.Loading)
+            if (it is Resource.Success) {
+                lifecycleScope.launch {
                     viewModel.saveAuthToken(it.value.token!!)
                     requireActivity().startNewActivity(HomeActivity::class.java)
 
                 }
-
-                is Resource.Failure -> {
-                    Toast.makeText(requireContext(), "Login Failure", Toast.LENGTH_SHORT).show()
-                }
-
-                Resource.Loading -> TODO()
             }
+            else if (it is Resource.Failure) handleApiError(it)
         })
 
         binding.etPass.addTextChangedListener {
@@ -53,9 +48,6 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
         binding.loginBtn.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPass.text.toString().trim()
-
-            binding.progressbar.visible(true)
-
             viewModel.login(email, password)
         }
     }
