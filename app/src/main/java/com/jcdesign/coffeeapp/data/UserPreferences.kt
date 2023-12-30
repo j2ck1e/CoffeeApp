@@ -3,6 +3,7 @@ package com.jcdesign.coffeeapp.data
 import android.content.Context
 import androidx.datastore.DataStore
 import androidx.datastore.preferences.Preferences
+import androidx.datastore.preferences.clear
 import androidx.datastore.preferences.createDataStore
 import androidx.datastore.preferences.edit
 import androidx.datastore.preferences.preferencesKey
@@ -30,6 +31,12 @@ class UserPreferences(
         dataStore.edit { preferences ->
             preferences[KEY_AUTH] = authToken
 
+        }
+    }
+
+    suspend fun clear(){
+        dataStore.edit { preferences ->
+            preferences.clear()
         }
     }
 

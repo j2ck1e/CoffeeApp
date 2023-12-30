@@ -7,11 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponse
 import com.jcdesign.coffeeapp.data.repository.LocationRepository
+import com.jcdesign.coffeeapp.presentation.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val repository: LocationRepository
-) : ViewModel() {
+) : BaseViewModel(repository) {
 
     private val _location: MutableLiveData<Resource<LocationResponse>> = MutableLiveData()
     val location: LiveData<Resource<LocationResponse>>

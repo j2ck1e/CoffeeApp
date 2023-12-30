@@ -1,5 +1,6 @@
 package com.jcdesign.coffeeapp.domain
 
+import com.jcdesign.coffeeapp.data.network.AuthApi
 import com.jcdesign.coffeeapp.data.network.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -26,6 +27,10 @@ abstract class BaseRepository {
 
             }
         }
+    }
+
+    suspend fun logout(api: AuthApi) = safeApiCall {
+        api.logout()
     }
 
 }

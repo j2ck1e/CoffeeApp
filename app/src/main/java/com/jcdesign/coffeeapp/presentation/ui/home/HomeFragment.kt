@@ -43,7 +43,13 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding, LocationRe
                 }
             }
         })
+
+        binding.btnLogout.setOnClickListener {
+            logout()
+        }
     }
+
+
 
     private fun updateUI(locationResponse: LocationResponse) {
         with(binding){

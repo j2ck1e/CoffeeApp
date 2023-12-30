@@ -7,12 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.response.LoginResponse
 import com.jcdesign.coffeeapp.data.repository.AuthRepository
+import com.jcdesign.coffeeapp.presentation.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 import okhttp3.Response
 
 class AuthViewModel(
     private val repository: AuthRepository
-) : ViewModel() {
+) : BaseViewModel(repository) {
 
 
     private val _loginResponse: MutableLiveData<Resource<LoginResponse>> = MutableLiveData()

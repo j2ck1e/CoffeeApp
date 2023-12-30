@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.presentation.ui.auth.LoginFragment
+import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
 
 fun<A: Activity> Activity.startNewActivity(activity: Class<A>){
     Intent(this, activity).also {
@@ -45,7 +46,7 @@ fun Fragment.handleApiError(
             if(this is LoginFragment){
                 requireView().snackbar("You've entered incorrect email or password")
             } else {
-                // @todo logout operation
+                (this as BaseFragment<*,*,*>).logout()
             }
 
 

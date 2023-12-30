@@ -36,8 +36,7 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
                     requireActivity().startNewActivity(HomeActivity::class.java)
 
                 }
-            }
-            else if (it is Resource.Failure) handleApiError(it)
+            } else if (it is Resource.Failure) handleApiError(it) {login()}
         })
 
         binding.etPass.addTextChangedListener {
@@ -46,10 +45,14 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
         }
 
         binding.loginBtn.setOnClickListener {
-            val email = binding.etEmail.text.toString().trim()
-            val password = binding.etPass.text.toString().trim()
-            viewModel.login(email, password)
+            login()
         }
+    }
+
+    private fun login() {
+        val email = binding.etEmail.text.toString().trim()
+        val password = binding.etPass.text.toString().trim()
+        viewModel.login(email, password)
     }
 
     override fun getViewModel() = AuthViewModel::class.java

@@ -10,12 +10,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.jcdesign.coffeeapp.data.UserPreferences
+import com.jcdesign.coffeeapp.data.network.AuthApi
 import com.jcdesign.coffeeapp.data.network.RemoteDataSource
 import com.jcdesign.coffeeapp.domain.BaseRepository
+import com.jcdesign.coffeeapp.presentation.ui.auth.AuthActivity
+import com.jcdesign.coffeeapp.presentation.ui.startNewActivity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-abstract class BaseFragment<VM : ViewModel, B : ViewBinding, R : BaseRepository> : Fragment() {
+abstract class BaseFragment<VM : BaseViewModel, B : ViewBinding, R : BaseRepository> : Fragment() {
 
     protected lateinit var userPreferences: UserPreferences
     protected lateinit var binding: B
@@ -35,6 +38,14 @@ abstract class BaseFragment<VM : ViewModel, B : ViewBinding, R : BaseRepository>
         lifecycleScope.launch { userPreferences.authToken.first() }
 
         return binding.root
+    }
+
+    fun logout() = lifecycleScope.launch{
+        val authToken = userPreferences.authToken.first()
+        val api = remoteDataSource.buildApi(AuthApi::class.java, authToken)
+        viewModel.logout(api)
+        userPreferences.clear()
+        requireActivity().startNewActivity(AuthActivity::class.java)
     }
 
     abstract fun getViewModel(): Class<VM>

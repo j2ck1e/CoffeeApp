@@ -36,6 +36,11 @@
 
         </TableRow>
 
+        <Button
+            android:layout_marginTop="20dp"
+            android:id="@+id/btn_logout"
+            android:text="Logout"/>
+
     </TableLayout>
     <ProgressBar
         android:id="@+id/progressbar"
