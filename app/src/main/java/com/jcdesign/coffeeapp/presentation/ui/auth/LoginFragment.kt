@@ -32,7 +32,7 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
             when (it) {
                 is Resource.Success -> {
 
-                    viewModel.saveAuthToken(it.value.token)
+                    viewModel.saveAuthToken(it.value.token!!)
                     requireActivity().startNewActivity(HomeActivity::class.java)
 
                 }
@@ -40,6 +40,8 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
                 is Resource.Failure -> {
                     Toast.makeText(requireContext(), "Login Failure", Toast.LENGTH_SHORT).show()
                 }
+
+                Resource.Loading -> TODO()
             }
         })
 

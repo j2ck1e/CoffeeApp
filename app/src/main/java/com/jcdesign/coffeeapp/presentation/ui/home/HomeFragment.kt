@@ -1,22 +1,69 @@
 package com.jcdesign.coffeeapp.presentation.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jcdesign.coffeeapp.R
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import com.jcdesign.coffeeapp.data.network.Resource
+import com.jcdesign.coffeeapp.data.network.LocationApi
+import com.jcdesign.coffeeapp.data.network.response.location.LocationResponse
+import com.jcdesign.coffeeapp.data.repository.LocationRepository
+import com.jcdesign.coffeeapp.databinding.FragmentHomeBinding
+import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
+import com.jcdesign.coffeeapp.presentation.ui.visible
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding, LocationRepository>() {
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        binding.progressbar.visible(false)
+
+        viewModel.getLocation()
+
+        viewModel.location.observe(viewLifecycleOwner, Observer {
+            when(it){
+                is Resource.Success ->{
+                    binding.progressbar.visible(false)
+                    updateUI(it.value)
+                }
+
+                is Resource.Loading -> {
+                    binding.progressbar.visible(true)
+
+                }
+
+                is Resource.Failure -> {
+                    Toast.makeText(requireContext(), "Resource.Failure", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+    }
+
+    private fun updateUI(locationResponse: LocationResponse) {
+        with(binding){
+            tvId.text = locationResponse[0].id.toString()
+            tvName.text = locationResponse[0].name
+        }
+
+    }
+
+    override fun getViewModel() = HomeViewModel::class.java
+
+    override fun getFragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ) = FragmentHomeBinding.inflate(inflater, container, false)
+
+    override fun getFragmentRepository(): LocationRepository {
+        val token = runBlocking { userPreferences.authToken.first() }
+        val api = remoteDataSource.buildApi(LocationApi::class.java, token)
+        return LocationRepository(api)
     }
 
 
