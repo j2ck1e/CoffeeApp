@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
+import com.jcdesign.coffeeapp.data.network.response.menu.MenuResponseItem
 import com.jcdesign.coffeeapp.databinding.ItemCoffeehouseInfoBinding
 
 class CoffeeHouseInfoAdapter() :
@@ -24,13 +25,13 @@ class CoffeeHouseInfoAdapter() :
             tvName.text = coffeeHouse.name
             tvDistance.text = " км от Вас"
             root.setOnClickListener {
-                onCoinClickListener?.onCoinClick(coffeeHouse)
+                onCoinClickListener?.onCoffeeHouseClick(coffeeHouse)
             }
         }
     }
 
     interface OnCoinClickListener {
-        fun onCoinClick(coinPriceInfo: LocationResponseItem)
+        fun onCoffeeHouseClick(coffeeHouse: LocationResponseItem)
     }
 
 }

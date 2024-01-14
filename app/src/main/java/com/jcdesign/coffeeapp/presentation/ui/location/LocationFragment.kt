@@ -31,11 +31,17 @@ class LocationFragment :
 
         viewModel.getCoffeeHouses()
 
-        viewModel.location.observe(viewLifecycleOwner, Observer {
+        viewModel.coffeeHouses.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {
                     adapter.submitList(it.value.toList())
                     binding.progressbar.visible(false)
+                    adapter.onCoinClickListener = object : CoffeeHouseInfoAdapter.OnCoinClickListener{
+                        override fun onCoffeeHouseClick(coffeeHouse: LocationResponseItem) {
+                            viewModel.getMenu(coffeeHouse.id.toString())
+                        }
+
+                    }
                 }
 
                 is Resource.Loading -> {

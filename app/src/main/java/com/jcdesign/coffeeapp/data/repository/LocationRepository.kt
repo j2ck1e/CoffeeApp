@@ -10,4 +10,8 @@ class LocationRepository(
     suspend fun getLocation() = safeApiCall {
         api.getLocation()
     }
+
+    suspend fun getMenu(id: String) = safeApiCall {
+        api.getMenu(id)
+    }
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponse
+import com.jcdesign.coffeeapp.data.network.response.menu.MenuResponse
 import com.jcdesign.coffeeapp.data.repository.LocationRepository
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -15,12 +16,22 @@ class LocationViewModel(
 ) : BaseViewModel(repository) {
 
     private val _coffeeHouses: MutableLiveData<Resource<LocationResponse>> = MutableLiveData()
-    val location: LiveData<Resource<LocationResponse>>
+    val coffeeHouses: LiveData<Resource<LocationResponse>>
         get() = _coffeeHouses
+
+
+    private val _menu: MutableLiveData<Resource<MenuResponse>> = MutableLiveData()
+    val menu: LiveData<Resource<MenuResponse>>
+        get() = _menu
 
     fun getCoffeeHouses() = viewModelScope.launch {
         _coffeeHouses.value = Resource.Loading
         _coffeeHouses.value = repository.getLocation()
+    }
+
+    fun getMenu(id: String) = viewModelScope.launch {
+        _menu.value = Resource.Loading
+        _menu.value = repository.getMenu(id)
     }
 
 
