@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
 import com.jcdesign.coffeeapp.databinding.ItemCoffeehouseInfoBinding
 
-class CoffeeHouseInfoAdapter :
+class CoffeeHouseInfoAdapter() :
     ListAdapter<LocationResponseItem, CoffeeHouseInfoViewHolder>(CoffeeHouseInfoDiffCallback) {
 
 
@@ -19,12 +19,12 @@ class CoffeeHouseInfoAdapter :
     }
 
     override fun onBindViewHolder(holder: CoffeeHouseInfoViewHolder, position: Int) {
-        val coffeHouse = getItem(position)
+        val coffeeHouse = getItem(position)
         with(holder.binding) {
-            tvName.text = coffeHouse.name
-            tvDistance.text = "${coffeHouse.point.latitude}, ${coffeHouse.point.longitude}"
+            tvName.text = coffeeHouse.name
+            tvDistance.text = " км от Вас"
             root.setOnClickListener {
-                onCoinClickListener?.onCoinClick(coffeHouse)
+                onCoinClickListener?.onCoinClick(coffeeHouse)
             }
         }
     }
@@ -32,4 +32,5 @@ class CoffeeHouseInfoAdapter :
     interface OnCoinClickListener {
         fun onCoinClick(coinPriceInfo: LocationResponseItem)
     }
+
 }

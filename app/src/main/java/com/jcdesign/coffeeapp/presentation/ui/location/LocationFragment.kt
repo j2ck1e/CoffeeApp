@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.LocationApi
-import com.jcdesign.coffeeapp.data.network.response.location.LocationResponse
+import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
 import com.jcdesign.coffeeapp.data.repository.LocationRepository
 import com.jcdesign.coffeeapp.databinding.FragmentLocationBinding
 import com.jcdesign.coffeeapp.presentation.ui.adapters.CoffeeHouseInfoAdapter
@@ -29,14 +29,13 @@ class LocationFragment :
         adapter = CoffeeHouseInfoAdapter()
         binding.rvCoffeeHouseList.adapter = adapter
 
-        viewModel.getLocation()
+        viewModel.getCoffeeHouses()
 
         viewModel.location.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {
                     adapter.submitList(it.value.toList())
                     binding.progressbar.visible(false)
-//                    updateUI(it.value)
                 }
 
                 is Resource.Loading -> {
@@ -56,13 +55,6 @@ class LocationFragment :
     }
 
 
-//    private fun updateUI(locationResponse: LocationResponse) {
-//        with(binding) {
-//
-//
-//        }
-//
-//    }
 
     override fun getViewModel() = LocationViewModel::class.java
 
