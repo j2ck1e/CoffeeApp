@@ -11,7 +11,7 @@ class MenuInfoAdapter :
     ListAdapter<MenuResponseItem, MenuInfoViewHolder>(MenuInfoDiffCallback) {
 
 
-    var onCoinClickListener: OnCoinClickListener? = null
+    var onMenuClickListener: OnMenuClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuInfoViewHolder {
         val binding =
@@ -25,13 +25,25 @@ class MenuInfoAdapter :
             Glide.with(holder.itemView).load(menu.imageURL).into(ivDrink)
             tvDrinkName.text = menu.name
             tvPrice.text = menu.price.toString()
+            tvCount.text = "0"
+            btnMinus.setOnClickListener {
+                onMenuClickListener?.onBtnMinusClick(holder)
+            }
+            btnPlus.setOnClickListener {
+                onMenuClickListener?.onBtnPlusClick(holder)
+
+            }
             root.setOnClickListener {
-                onCoinClickListener?.onMenuClick(menu)
+                onMenuClickListener?.onMenuClick(menu)
             }
         }
     }
 
-    interface OnCoinClickListener {
+    interface OnMenuClickListener {
         fun onMenuClick(menu: MenuResponseItem)
+        fun onBtnMinusClick(holder: MenuInfoViewHolder)
+        fun onBtnPlusClick(holder: MenuInfoViewHolder)
     }
+
+
 }

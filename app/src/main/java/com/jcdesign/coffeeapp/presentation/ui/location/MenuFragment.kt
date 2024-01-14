@@ -9,9 +9,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.jcdesign.coffeeapp.data.network.LocationApi
 import com.jcdesign.coffeeapp.data.network.Resource
+import com.jcdesign.coffeeapp.data.network.response.menu.MenuResponseItem
 import com.jcdesign.coffeeapp.data.repository.LocationRepository
 import com.jcdesign.coffeeapp.databinding.FragmentMenuBinding
 import com.jcdesign.coffeeapp.presentation.ui.adapters.MenuInfoAdapter
+import com.jcdesign.coffeeapp.presentation.ui.adapters.MenuInfoViewHolder
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
 import com.jcdesign.coffeeapp.presentation.ui.visible
 import kotlinx.coroutines.flow.first
@@ -38,13 +40,20 @@ class MenuFragment :
                 is Resource.Success -> {
                     adapter.submitList(it.value.toList())
                     binding.progressbar.visible(false)
-//                    adapter.onCoinClickListener = object : CoffeeHouseInfoAdapter.OnCoinClickListener{
-//                        override fun onCoffeeHouseClick(coffeeHouse: LocationResponseItem) {
-//                            viewModel.getMenu(coffeeHouse.id.toString())
-//                            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
-//                        }
-//
-//                    }
+                    adapter.onMenuClickListener = object : MenuInfoAdapter.OnMenuClickListener{
+                        override fun onMenuClick(menu: MenuResponseItem) {
+                            TODO("Not yet implemented")
+                        }
+
+                        override fun onBtnMinusClick(holder: MenuInfoViewHolder) {
+                            holder.binding.tvCount.text = viewModel.decrCount(holder)
+                        }
+
+                        override fun onBtnPlusClick(holder: MenuInfoViewHolder) {
+                           holder.binding.tvCount.text = viewModel.incrCount(holder)
+                        }
+
+                    }
                 }
 
                 is Resource.Loading -> {
@@ -59,8 +68,9 @@ class MenuFragment :
         })
 
         binding.btnLogout.setOnClickListener {
-            logout()
+//            logout()
         }
+
     }
 
     override fun getViewModel() = MenuViewModel::class.java

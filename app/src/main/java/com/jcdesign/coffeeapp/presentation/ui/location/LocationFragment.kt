@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.jcdesign.coffeeapp.R
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.LocationApi
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
@@ -38,7 +37,7 @@ class LocationFragment :
                 is Resource.Success -> {
                     adapter.submitList(it.value.toList())
                     binding.progressbar.visible(false)
-                    adapter.onCoinClickListener = object : CoffeeHouseInfoAdapter.OnCoinClickListener{
+                    adapter.onItemClickListener = object : CoffeeHouseInfoAdapter.OnItemClickListener{
                         override fun onCoffeeHouseClick(coffeeHouse: LocationResponseItem) {
                             findNavController().navigate(LocationFragmentDirections.actionHomeFragmentToMenuFragment(coffeeHouse.id.toString()))
 

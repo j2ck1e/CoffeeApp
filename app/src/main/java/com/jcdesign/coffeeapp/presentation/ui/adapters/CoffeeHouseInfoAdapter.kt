@@ -4,14 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
-import com.jcdesign.coffeeapp.data.network.response.menu.MenuResponseItem
 import com.jcdesign.coffeeapp.databinding.ItemCoffeehouseInfoBinding
 
 class CoffeeHouseInfoAdapter() :
     ListAdapter<LocationResponseItem, CoffeeHouseInfoViewHolder>(CoffeeHouseInfoDiffCallback) {
 
 
-    var onCoinClickListener: OnCoinClickListener? = null
+    var onItemClickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoffeeHouseInfoViewHolder {
         val binding =
@@ -25,12 +24,12 @@ class CoffeeHouseInfoAdapter() :
             tvName.text = coffeeHouse.name
             tvDistance.text = " км от Вас"
             root.setOnClickListener {
-                onCoinClickListener?.onCoffeeHouseClick(coffeeHouse)
+                onItemClickListener?.onCoffeeHouseClick(coffeeHouse)
             }
         }
     }
 
-    interface OnCoinClickListener {
+    interface OnItemClickListener {
         fun onCoffeeHouseClick(coffeeHouse: LocationResponseItem)
     }
 
