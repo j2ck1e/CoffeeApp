@@ -6,45 +6,45 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
-import com.jcdesign.coffeeapp.R
-import com.jcdesign.coffeeapp.data.network.Resource
+import androidx.navigation.fragment.navArgs
 import com.jcdesign.coffeeapp.data.network.LocationApi
-import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
+import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.repository.LocationRepository
-import com.jcdesign.coffeeapp.databinding.FragmentLocationBinding
-import com.jcdesign.coffeeapp.presentation.ui.adapters.CoffeeHouseInfoAdapter
+import com.jcdesign.coffeeapp.databinding.FragmentMenuBinding
+import com.jcdesign.coffeeapp.presentation.ui.adapters.MenuInfoAdapter
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
 import com.jcdesign.coffeeapp.presentation.ui.visible
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
 
-class LocationFragment :
-    BaseFragment<LocationViewModel, FragmentLocationBinding, LocationRepository>() {
-    private lateinit var adapter: CoffeeHouseInfoAdapter
+class MenuFragment :
+    BaseFragment<MenuViewModel, FragmentMenuBinding, LocationRepository>() {
+
+    private lateinit var adapter: MenuInfoAdapter
+    private val args by navArgs<MenuFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.progressbar.visible(false)
-        adapter = CoffeeHouseInfoAdapter()
-        binding.rvCoffeeHouseList.adapter = adapter
+        adapter = MenuInfoAdapter()
+        binding.rvMenuList.adapter = adapter
 
-        viewModel.getCoffeeHouses()
+        viewModel.getMenu(args.id)
 
-        viewModel.coffeeHouses.observe(viewLifecycleOwner, Observer {
+        viewModel.menu.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {
                     adapter.submitList(it.value.toList())
                     binding.progressbar.visible(false)
-                    adapter.onCoinClickListener = object : CoffeeHouseInfoAdapter.OnCoinClickListener{
-                        override fun onCoffeeHouseClick(coffeeHouse: LocationResponseItem) {
-                            findNavController().navigate(LocationFragmentDirections.actionHomeFragmentToMenuFragment(coffeeHouse.id.toString()))
-
-                        }
-
-                    }
+//                    adapter.onCoinClickListener = object : CoffeeHouseInfoAdapter.OnCoinClickListener{
+//                        override fun onCoffeeHouseClick(coffeeHouse: LocationResponseItem) {
+//                            viewModel.getMenu(coffeeHouse.id.toString())
+//                            findNavController().navigate(R.id.action_homeFragment_to_menuFragment)
+//                        }
+//
+//                    }
                 }
 
                 is Resource.Loading -> {
@@ -63,20 +63,17 @@ class LocationFragment :
         }
     }
 
-
-
-    override fun getViewModel() = LocationViewModel::class.java
+    override fun getViewModel() = MenuViewModel::class.java
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ) = FragmentLocationBinding.inflate(inflater, container, false)
+    ) = FragmentMenuBinding.inflate(inflater, container, false)
 
     override fun getFragmentRepository(): LocationRepository {
         val token = runBlocking { userPreferences.authToken.first() }
         val api = remoteDataSource.buildApi(LocationApi::class.java, token)
         return LocationRepository(api)
     }
-
 
 }
