@@ -1,8 +1,7 @@
-package com.jcdesign.coffeeapp.presentation.ui.home
+package com.jcdesign.coffeeapp.presentation.ui.location
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponse
@@ -10,7 +9,7 @@ import com.jcdesign.coffeeapp.data.repository.LocationRepository
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
+class LocationViewModel(
     private val repository: LocationRepository
 ) : BaseViewModel(repository) {
 

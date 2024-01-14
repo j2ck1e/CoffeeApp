@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.ui.home.HomeActivity"
+            android:name=".presentation.ui.location.LocationActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.ui.auth.AuthActivity"

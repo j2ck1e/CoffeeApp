@@ -1,4 +1,4 @@
-package com.jcdesign.coffeeapp.presentation.ui.home
+package com.jcdesign.coffeeapp.presentation.ui.location
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,14 +10,14 @@ import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.LocationApi
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponse
 import com.jcdesign.coffeeapp.data.repository.LocationRepository
-import com.jcdesign.coffeeapp.databinding.FragmentHomeBinding
+import com.jcdesign.coffeeapp.databinding.FragmentLocationBinding
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
 import com.jcdesign.coffeeapp.presentation.ui.visible
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
 
-class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding, LocationRepository>() {
+class LocationFragment : BaseFragment<LocationViewModel, FragmentLocationBinding, LocationRepository>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,18 +53,18 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding, LocationRe
 
     private fun updateUI(locationResponse: LocationResponse) {
         with(binding){
-            tvId.text = locationResponse[0].id.toString()
-            tvName.text = locationResponse[0].name
+//            tvId.text = locationResponse[0].id.toString()
+//            tvName.text = locationResponse[0].name
         }
 
     }
 
-    override fun getViewModel() = HomeViewModel::class.java
+    override fun getViewModel() = LocationViewModel::class.java
 
     override fun getFragmentBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ) = FragmentHomeBinding.inflate(inflater, container, false)
+    ) = FragmentLocationBinding.inflate(inflater, container, false)
 
     override fun getFragmentRepository(): LocationRepository {
         val token = runBlocking { userPreferences.authToken.first() }

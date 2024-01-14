@@ -1,26 +1,20 @@
 package com.jcdesign.coffeeapp.presentation.ui.auth
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.jcdesign.coffeeapp.R
 import com.jcdesign.coffeeapp.data.network.AuthApi
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.repository.AuthRepository
-import com.jcdesign.coffeeapp.databinding.FragmentLoginBinding
 import com.jcdesign.coffeeapp.databinding.FragmentRegisterBinding
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
 import com.jcdesign.coffeeapp.presentation.ui.enable
 import com.jcdesign.coffeeapp.presentation.ui.handleApiError
-import com.jcdesign.coffeeapp.presentation.ui.home.HomeActivity
+import com.jcdesign.coffeeapp.presentation.ui.location.LocationActivity
 import com.jcdesign.coffeeapp.presentation.ui.startNewActivity
-import com.jcdesign.coffeeapp.presentation.ui.visible
 import kotlinx.coroutines.launch
 
 
@@ -36,7 +30,7 @@ class RegisterFragment : BaseFragment<AuthViewModel, FragmentRegisterBinding, Au
             if (it is Resource.Success) {
                 lifecycleScope.launch {
                     viewModel.saveAuthToken(it.value.token!!)
-                    requireActivity().startNewActivity(HomeActivity::class.java)
+                    requireActivity().startNewActivity(LocationActivity::class.java)
 
                 }
             } else if (it is Resource.Failure) handleApiError(it) {register()}
