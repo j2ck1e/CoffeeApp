@@ -2,69 +2,90 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".presentation.ui.auth.LoginFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_gravity="left"
-        android:textColor="@color/str_color"
-        android:text="@string/e_mail_txt"/>
+        android:layout_marginStart="16dp"
+        android:text="@string/e_mail_txt"
+        android:textColor="@color/str_color" />
 
     <EditText
         android:id="@+id/et_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:hint="@string/email_example"
-        android:textSize="18sp"
         android:background="@drawable/rounded_corner"
+        android:hint="@string/email_example"
+        android:inputType="textEmailAddress"
         android:padding="8dp"
-        android:inputType="textEmailAddress"/>
+        android:textSize="18sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
         android:layout_gravity="left"
-        android:textColor="@color/str_color"
-        android:text="@string/passeord_txt"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/passeord_txt"
+        android:textColor="@color/str_color" />
+
     <EditText
         android:id="@+id/et_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:hint="@string/stars"
-        android:textSize="18sp"
         android:background="@drawable/rounded_corner"
+        android:hint="@string/stars"
+        android:inputType="textPassword"
         android:padding="8dp"
-        android:inputType="textPassword"/>
+        android:textSize="18sp" />
 
 
     <Button
         android:id="@+id/login_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/enter"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <ProgressBar
         android:id="@+id/progressbar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TableRow>
+
+            <TextView
+
+                android:text="@string/don_t_have_an_account" />
+
+            <TextView
+                android:id="@+id/tv_register_now"
+                android:text="@string/register_now"
+                android:textStyle="bold" />
+        </TableRow>
+
+
+    </TableLayout>
 
 </LinearLayout>

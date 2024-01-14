@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.jcdesign.coffeeapp.R
 import com.jcdesign.coffeeapp.data.network.AuthApi
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.repository.AuthRepository
@@ -46,6 +48,10 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
 
         binding.loginBtn.setOnClickListener {
             login()
+        }
+
+        binding.tvRegisterNow.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
 
