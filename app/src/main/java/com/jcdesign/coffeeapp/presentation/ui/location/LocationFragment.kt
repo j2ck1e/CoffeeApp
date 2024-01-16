@@ -27,7 +27,7 @@ class LocationFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding.progressbar.visible(false)
-        adapter = CoffeeHouseInfoAdapter()
+        adapter = CoffeeHouseInfoAdapter(viewModel)
         binding.rvCoffeeHouseList.adapter = adapter
 
         viewModel.getCoffeeHouses()

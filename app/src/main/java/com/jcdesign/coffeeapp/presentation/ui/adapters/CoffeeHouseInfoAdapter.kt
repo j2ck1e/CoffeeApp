@@ -2,11 +2,14 @@ package com.jcdesign.coffeeapp.presentation.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ListAdapter
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
 import com.jcdesign.coffeeapp.databinding.ItemCoffeehouseInfoBinding
+import com.jcdesign.coffeeapp.presentation.ui.location.LocationViewModel
 
-class CoffeeHouseInfoAdapter() :
+class CoffeeHouseInfoAdapter(private val viewModel: LocationViewModel) :
     ListAdapter<LocationResponseItem, CoffeeHouseInfoViewHolder>(CoffeeHouseInfoDiffCallback) {
 
 
@@ -22,7 +25,9 @@ class CoffeeHouseInfoAdapter() :
         val coffeeHouse = getItem(position)
         with(holder.binding) {
             tvName.text = coffeeHouse.name
-            tvDistance.text = " км от Вас"
+            viewModel.getDistanceText().observe(holder.itemView.context as LifecycleOwner, Observer {
+                tvDistance.text = "$it км от Вас"
+            })
             root.setOnClickListener {
                 onItemClickListener?.onCoffeeHouseClick(coffeeHouse)
             }

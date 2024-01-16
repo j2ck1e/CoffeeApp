@@ -20,29 +20,29 @@ class LocationViewModel(
         get() = _coffeeHouses
 
 
-    private val _menu: MutableLiveData<Resource<MenuResponse>> = MutableLiveData()
-    val menu: LiveData<Resource<MenuResponse>>
-        get() = _menu
+    private val _distance: MutableLiveData<String> = MutableLiveData()
+    val distance: LiveData<String>
+        get() = _distance
 
     fun getCoffeeHouses() = viewModelScope.launch {
         _coffeeHouses.value = Resource.Loading
         _coffeeHouses.value = repository.getLocation()
     }
 
-    fun getMenu(id: String) = viewModelScope.launch {
-        _menu.value = Resource.Loading
-        _menu.value = repository.getMenu(id)
+    fun getDistanceText(): LiveData<String> {
+        _distance.value = "3"
+        return distance
     }
 
 
 
-    fun getDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): String {
-        val loc1 = Location("")
-        loc1.latitude = lat1
-        loc1.longitude = lon1
-        val loc2 = Location("")
-        loc2.latitude = lat2
-        loc2.longitude = lon2
-        return (loc1.distanceTo(loc2) / 1000).toString()
-    }
+//    fun getDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): String {
+//        val loc1 = Location("")
+//        loc1.latitude = lat1
+//        loc1.longitude = lon1
+//        val loc2 = Location("")
+//        loc2.latitude = lat2
+//        loc2.longitude = lon2
+//        return (loc1.distanceTo(loc2) / 1000).toString()
+//    }
 }
