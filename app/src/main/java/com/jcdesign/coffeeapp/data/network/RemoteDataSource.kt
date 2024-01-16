@@ -1,6 +1,7 @@
 package com.jcdesign.coffeeapp.data.network
 
 import com.jcdesign.coffeeapp.BuildConfig
+import com.jcdesign.coffeeapp.presentation.ui.Constants.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,9 +9,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class RemoteDataSource {
-    companion object {
-        private const val BASE_URL = "http://147.78.66.203:3210/"
-    }
 
     fun <Api> buildApi(
         api: Class<Api>,

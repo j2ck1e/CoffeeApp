@@ -1,5 +1,6 @@
 package com.jcdesign.coffeeapp.data.repository
 
+import android.app.Application
 import com.jcdesign.coffeeapp.data.network.LocationApi
 import com.jcdesign.coffeeapp.domain.BaseRepository
 

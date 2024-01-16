@@ -7,15 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.LocationApi
+import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
 import com.jcdesign.coffeeapp.data.repository.LocationRepository
 import com.jcdesign.coffeeapp.databinding.FragmentLocationBinding
@@ -69,23 +67,25 @@ class LocationFragment :
 
                 is Resource.Failure -> {
                     Toast.makeText(requireContext(), "Resource.Failure", Toast.LENGTH_SHORT).show()
+                    logout()
                 }
             }
         })
 
         binding.btnLogout.setOnClickListener {
-            logout()
+            findNavController().navigate(
+                LocationFragmentDirections.actionHomeFragmentToMapFragment())
         }
     }
+
 
     private fun checkLocationPermission() {
         when {
             ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
+                requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
 
-                // TODO: check for distance
+                viewModel.setDistance()
 
             }
 
@@ -118,10 +118,8 @@ class LocationFragment :
 
     override fun getViewModel() = LocationViewModel::class.java
 
-    override fun getFragmentBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ) = FragmentLocationBinding.inflate(inflater, container, false)
+    override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentLocationBinding.inflate(inflater, container, false)
 
     override fun getFragmentRepository(): LocationRepository {
         val token = runBlocking { userPreferences.authToken.first() }
