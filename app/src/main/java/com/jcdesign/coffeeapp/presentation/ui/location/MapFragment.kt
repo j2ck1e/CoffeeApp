@@ -32,7 +32,7 @@ class MapFragment : Fragment() {
         val map = binding.mapview.mapWindow.map
         map.move(
             CameraPosition(
-                Point(55.751225, 37.629540),
+                Point(44.72452500000000, 44.72452500000000),
                 /* zoom = */ 17.0f,
                 /* azimuth = */ 150.0f,
                 /* tilt = */ 30.0f

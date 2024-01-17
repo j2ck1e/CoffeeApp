@@ -3,6 +3,7 @@ package com.jcdesign.coffeeapp.presentation.ui.location
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.jcdesign.coffeeapp.data.db.CoffeeHouseDatabase
+import com.jcdesign.coffeeapp.data.db.Location
 import com.jcdesign.coffeeapp.data.network.LocationApi
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
@@ -28,6 +32,7 @@ class LocationFragment :
     BaseFragment<LocationViewModel, FragmentLocationBinding, LocationRepository>() {
     private lateinit var adapter: CoffeeHouseInfoAdapter
     private lateinit var pLauncher: ActivityResultLauncher<String>
+    private lateinit var locations: MutableList<Location>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,11 +46,16 @@ class LocationFragment :
 
         viewModel.getCoffeeHouses()
 
-        viewModel.coffeeHouses.observe(viewLifecycleOwner, Observer {
-            when (it) {
+        viewModel.coffeeHouses.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
                 is Resource.Success -> {
-                    adapter.submitList(it.value.toList())
-                    binding.progressbar.visible(false)
+                    response.value.let {
+                        binding.progressbar.visible(false)
+                        adapter.submitList(it)
+                        viewModel.clearData()
+                        viewModel.saveLocationResponse(it)
+
+                    }
                     adapter.onItemClickListener =
                         object : CoffeeHouseInfoAdapter.OnItemClickListener {
                             override fun onCoffeeHouseClick(coffeeHouse: LocationResponseItem) {
@@ -72,10 +82,15 @@ class LocationFragment :
             }
         })
 
+
+
         binding.btnLogout.setOnClickListener {
             findNavController().navigate(
-                LocationFragmentDirections.actionHomeFragmentToMapFragment())
+                LocationFragmentDirections.actionHomeFragmentToMapFragment()
+            )
         }
+
+
     }
 
 
@@ -124,7 +139,8 @@ class LocationFragment :
     override fun getFragmentRepository(): LocationRepository {
         val token = runBlocking { userPreferences.authToken.first() }
         val api = remoteDataSource.buildApi(LocationApi::class.java, token)
-        return LocationRepository(api)
+        val db = CoffeeHouseDatabase.invoke(requireContext())
+        return LocationRepository(db, api)
     }
 
 

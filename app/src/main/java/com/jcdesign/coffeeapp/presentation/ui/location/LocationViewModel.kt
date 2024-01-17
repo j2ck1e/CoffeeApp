@@ -23,8 +23,22 @@ class LocationViewModel(
 
     fun getCoffeeHouses() = viewModelScope.launch {
         _coffeeHouses.value = Resource.Loading
-        _coffeeHouses.value = repository.getLocation()
+        val response = repository.getLocation()
+        _coffeeHouses.postValue(response)
     }
+
+     fun saveLocationResponse(listOfLocationResponse: LocationResponse) = viewModelScope.launch {
+        repository.upsert(listOfLocationResponse)
+    }
+
+     fun getLatitude() =
+        repository.getSavedLocationResponse()
+
+
+     fun clearData() = viewModelScope.launch {
+        repository.clearData()
+    }
+
 
     fun setDistance():
             LiveData<String> {

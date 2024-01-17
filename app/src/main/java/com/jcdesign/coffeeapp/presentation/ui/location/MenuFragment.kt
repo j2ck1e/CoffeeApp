@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.jcdesign.coffeeapp.data.db.CoffeeHouseDatabase
 import com.jcdesign.coffeeapp.data.network.LocationApi
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.response.menu.MenuResponseItem
@@ -83,7 +84,8 @@ class MenuFragment :
     override fun getFragmentRepository(): LocationRepository {
         val token = runBlocking { userPreferences.authToken.first() }
         val api = remoteDataSource.buildApi(LocationApi::class.java, token)
-        return LocationRepository(api)
+        val db = CoffeeHouseDatabase.invoke(requireContext())
+        return LocationRepository(db, api)
     }
 
 }
