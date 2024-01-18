@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponse
+import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
 import com.jcdesign.coffeeapp.data.repository.LocationRepository
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ class LocationViewModel(
         _coffeeHouses.postValue(response)
     }
 
-     fun saveLocationResponse(listOfLocationResponse: LocationResponse) = viewModelScope.launch {
+     suspend fun saveLocationResponse(listOfLocationResponse: LocationResponse) {
         repository.upsert(listOfLocationResponse)
     }
 
@@ -45,5 +46,7 @@ class LocationViewModel(
         _distance.value = "3"
         return distance
     }
+
+
 
 }

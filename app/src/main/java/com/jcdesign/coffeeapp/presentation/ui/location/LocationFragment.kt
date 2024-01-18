@@ -15,16 +15,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.jcdesign.coffeeapp.data.db.CoffeeHouseDatabase
-import com.jcdesign.coffeeapp.data.db.Location
 import com.jcdesign.coffeeapp.data.network.LocationApi
 import com.jcdesign.coffeeapp.data.network.Resource
+import com.jcdesign.coffeeapp.data.network.response.location.LocationResponse
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
 import com.jcdesign.coffeeapp.data.repository.LocationRepository
 import com.jcdesign.coffeeapp.databinding.FragmentLocationBinding
 import com.jcdesign.coffeeapp.presentation.ui.adapters.CoffeeHouseInfoAdapter
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
 import com.jcdesign.coffeeapp.presentation.ui.visible
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 
@@ -32,7 +34,7 @@ class LocationFragment :
     BaseFragment<LocationViewModel, FragmentLocationBinding, LocationRepository>() {
     private lateinit var adapter: CoffeeHouseInfoAdapter
     private lateinit var pLauncher: ActivityResultLauncher<String>
-    private lateinit var locations: MutableList<Location>
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,9 +53,9 @@ class LocationFragment :
                 is Resource.Success -> {
                     response.value.let {
                         binding.progressbar.visible(false)
-                        adapter.submitList(it)
+//                        adapter.submitList(it)
                         viewModel.clearData()
-                        viewModel.saveLocationResponse(it)
+                        complex(it)
 
                     }
                     adapter.onItemClickListener =
@@ -90,6 +92,17 @@ class LocationFragment :
             )
         }
 
+
+    }
+
+    private fun complex(response: LocationResponse) {
+        lifecycleScope.launch {
+            viewModel.saveLocationResponse(response)
+            viewModel.getLatitude().observe(viewLifecycleOwner, Observer { list ->
+                Log.d("MyTAG", "$list")
+                adapter.submitList(list)
+            })
+        }
 
     }
 

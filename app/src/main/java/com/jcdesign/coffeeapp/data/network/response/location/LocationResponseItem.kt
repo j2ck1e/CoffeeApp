@@ -6,9 +6,9 @@ import java.io.Serializable
 
 @Entity(tableName = "coffeehouse")
 data class LocationResponseItem(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey/*(autoGenerate = true)*/
     var id: Int? = null,
-    var name: String = "",
+    var name: String? = "",
     var point: Point? = null,
-    var distance: Float? = null
+    var distance: String? = ""
 ): Serializable

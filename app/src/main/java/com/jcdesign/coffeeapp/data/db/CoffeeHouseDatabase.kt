@@ -7,11 +7,12 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponse
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
+import com.jcdesign.coffeeapp.data.network.response.location.Point
 
 @Database(
     entities = [LocationResponseItem::class],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class CoffeeHouseDatabase: RoomDatabase() {

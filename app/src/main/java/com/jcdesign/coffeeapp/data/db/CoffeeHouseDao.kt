@@ -14,7 +14,7 @@ interface CoffeeHouseDao {
 
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
-        suspend fun upsert(listOfDetailWeather: ArrayList<LocationResponseItem>): List<Long>
+        suspend fun upsert(listOfDetailWeather: LocationResponse)/*: List<Long>*/
 
         @Query("SELECT * FROM coffeehouse")
         fun getLocationResponse(): LiveData<List<LocationResponseItem>>

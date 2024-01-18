@@ -25,9 +25,7 @@ class CoffeeHouseInfoAdapter(private val viewModel: LocationViewModel) :
         val coffeeHouse = getItem(position)
         with(holder.binding) {
             tvName.text = coffeeHouse.name
-            viewModel.setDistance().observe(holder.itemView.context as LifecycleOwner, Observer {
-                tvDistance.text = "$it км от Вас"
-            })
+            tvDistance.text = coffeeHouse.distance
             root.setOnClickListener {
                 onItemClickListener?.onCoffeeHouseClick(coffeeHouse)
             }
