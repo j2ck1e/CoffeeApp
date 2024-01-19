@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -41,6 +42,7 @@ class LocationViewModel(
         get() = _distance
 
     fun getCoffeeHouses() = viewModelScope.launch {
+        Log.d("MyTAG", "getCoffeeHouses...")
         _coffeeHouses.value = Resource.Loading
         val response = repository.getLocation()
         _coffeeHouses.postValue(response)
@@ -53,8 +55,6 @@ class LocationViewModel(
      fun getDataFromDB() =
         repository.getSavedLocationResponse()
 
-//    fun getPointsFromDB() =
-//        repository.getPoints()
 
 
      fun clearData() = viewModelScope.launch {
@@ -63,13 +63,13 @@ class LocationViewModel(
 
     fun requestLocationUpdates() {
         val locationRequest = LocationRequest.create()
-//            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-//            .setInterval(10000)  // 10 seconds
-//            .setFastestInterval(5000)  // 5 seconds
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+            .setInterval(10000)  // 10 seconds
+            .setFastestInterval(5000)  // 5 seconds
 
         val locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
-                p0?.lastLocation?.let {
+                p0.lastLocation?.let {
                     _currentLocation.postValue(it)
                 }
             }
@@ -90,7 +90,7 @@ class LocationViewModel(
 //
 //    private val locationCallback = object : LocationCallback() {
 //        override fun onLocationResult(p0: LocationResult) {
-//            p0?.lastLocation?.let {
+//            p0.lastLocation?.let {
 //                _currentLocation.postValue(it)
 //            }
 //        }

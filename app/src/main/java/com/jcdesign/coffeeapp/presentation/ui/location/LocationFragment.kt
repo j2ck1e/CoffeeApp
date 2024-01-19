@@ -51,7 +51,6 @@ class LocationFragment :
         binding.rvCoffeeHouseList.adapter = adapter
 
 
-
         viewModel.coffeeHouses.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
@@ -102,16 +101,18 @@ class LocationFragment :
     }
 
     private fun getCurrentLocation() {
+        Log.d("MyTAG", "getCurrentLocation...")
         viewModel.requestLocationUpdates()
         viewModel.currentLocation.observe(viewLifecycleOwner, Observer { it ->
             Log.d("MyTAG", "getCurrentLocation: ${it.latitude}, ${it.longitude}")
             myLocation = Point(it.latitude, it.longitude)
         })
-
+        viewModel.getCoffeeHouses()
 
     }
 
     fun calculateDistance(myLocation: Point, targetLocation: Point): Double {
+
 
         // TODO: result
         return 3.14
@@ -141,7 +142,7 @@ class LocationFragment :
             ) == PackageManager.PERMISSION_GRANTED -> {
 
                 getCurrentLocation()
-                viewModel.getCoffeeHouses()
+
             }
 
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
@@ -151,6 +152,7 @@ class LocationFragment :
             }
             else -> {
                 pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+
             }
         }
     }
@@ -161,7 +163,7 @@ class LocationFragment :
         ) {
             if (it) {
                 getCurrentLocation()
-                viewModel.getCoffeeHouses()
+
                 Toast.makeText(requireContext(), "Location was activated", Toast.LENGTH_SHORT)
                     .show()
             } else {

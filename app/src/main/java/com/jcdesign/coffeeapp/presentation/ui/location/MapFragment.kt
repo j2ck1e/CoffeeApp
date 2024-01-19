@@ -1,16 +1,10 @@
 package com.jcdesign.coffeeapp.presentation.ui.location
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.jcdesign.coffeeapp.R
@@ -19,12 +13,12 @@ import com.jcdesign.coffeeapp.data.network.LocationApi
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
 import com.jcdesign.coffeeapp.data.repository.LocationRepository
 import com.jcdesign.coffeeapp.databinding.FragmentMapBinding
-import com.jcdesign.coffeeapp.presentation.ui.Constants.Companion.API_KEY
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
 import com.yandex.mapkit.MapKitFactory
-import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.map.MapObjectTapListener
+import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.MapObjectCollection
+import com.yandex.mapkit.map.TextStyle
 import com.yandex.runtime.image.ImageProvider
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -33,9 +27,10 @@ import kotlinx.coroutines.runBlocking
 class MapFragment : BaseFragment<MapViewModel, FragmentMapBinding, LocationRepository>() {
 
     private val args by navArgs<MapFragmentArgs>()
-    private lateinit var myLocation: Point
+
     private lateinit var data: List<LocationResponseItem>
     private lateinit var points: List<Point>
+    private lateinit var names: List<String>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,8 +38,10 @@ class MapFragment : BaseFragment<MapViewModel, FragmentMapBinding, LocationRepos
         savedInstanceState: Bundle?
     ): View? {
         MapKitFactory.initialize(requireContext())
+
         return super.onCreateView(inflater, container, savedInstanceState)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -56,22 +53,20 @@ class MapFragment : BaseFragment<MapViewModel, FragmentMapBinding, LocationRepos
             }
             Log.d("MyTAG", "data from mapfragment: $data")
             val _points = mutableListOf<Point>()
+            val _names = mutableListOf<String>()
             for (point in data) {
                 _points.add(Point(point.point.latitude.toDouble(), point.point.longitude.toDouble()))
+                _names.add(point.name)
                 points = _points.toList()
+                names = _names.toList()
             }
             Log.d("MyTAG", "points from mapfragment: ${points.get(1).latitude}, ${points.get(1).longitude}")
 
             val pinsCollection = map.mapObjects.addCollection()
             val imageProvider = ImageProvider.fromResource(requireContext(), R.mipmap.coffee_cup_location)
 
-            points.forEach { point ->
-                pinsCollection.addPlacemark().apply {
-                    geometry = point
-                    setIcon(imageProvider)
-                }
-            }
 
+            setPoints(pinsCollection, imageProvider)
 
         })
 
@@ -82,8 +77,26 @@ class MapFragment : BaseFragment<MapViewModel, FragmentMapBinding, LocationRepos
 
     }
 
-    private fun getCurrentLocation() = Point(args.lat.toDouble(), args.lon.toDouble())
+    private fun setPoints(
+        pinsCollection: MapObjectCollection,
+        imageProvider: ImageProvider
+    ) {
+        for (i in points.indices) {
+            pinsCollection.addPlacemark().apply {
+                geometry = Point(points[i].latitude, points[i].longitude)
+                setIcon(imageProvider)
+                setText(
+                    names[i],
+                    TextStyle().apply {
+                        size = 10f
+                        placement = TextStyle.Placement.BOTTOM
+                        offset = 5f
+                    })
+            }
+        }
+    }
 
+    private fun getCurrentLocation() = Point(args.lat.toDouble(), args.lon.toDouble())
 
 
     override fun onStart() {
@@ -97,8 +110,6 @@ class MapFragment : BaseFragment<MapViewModel, FragmentMapBinding, LocationRepos
         MapKitFactory.getInstance().onStop()
         super.onStop()
     }
-
-
 
 
     override fun getViewModel() = MapViewModel::class.java
