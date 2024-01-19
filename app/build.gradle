@@ -73,7 +73,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.7.4'
     implementation 'androidx.navigation:navigation-ui-ktx:2.7.4'
 
-    // Google Maps Location Services
+    // Maps Location Services
     implementation 'com.google.android.gms:play-services-location:20.0.0'
     implementation 'com.yandex.android:maps.mobile:4.4.0-lite'
 

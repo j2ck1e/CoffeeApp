@@ -38,5 +38,12 @@
         android:id="@+id/mapFragment"
         android:name="com.jcdesign.coffeeapp.presentation.ui.location.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map" >
+        <argument
+            android:name="lat"
+            app:argType="string" />
+        <argument
+            android:name="lon"
+            app:argType="string" />
+    </fragment>
 </navigation>

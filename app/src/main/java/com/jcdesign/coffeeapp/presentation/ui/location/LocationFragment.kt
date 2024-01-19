@@ -24,7 +24,7 @@ import com.jcdesign.coffeeapp.databinding.FragmentLocationBinding
 import com.jcdesign.coffeeapp.presentation.ui.adapters.CoffeeHouseInfoAdapter
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
 import com.jcdesign.coffeeapp.presentation.ui.visible
-import kotlinx.coroutines.delay
+import com.yandex.mapkit.geometry.Point
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -34,6 +34,9 @@ class LocationFragment :
     BaseFragment<LocationViewModel, FragmentLocationBinding, LocationRepository>() {
     private lateinit var adapter: CoffeeHouseInfoAdapter
     private lateinit var pLauncher: ActivityResultLauncher<String>
+    private lateinit var points: List<LocationResponseItem>
+    private lateinit var myLocation: Point
+    private lateinit var targetLocation: Point
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,18 +45,18 @@ class LocationFragment :
         registerPermissionListener()
         checkLocationPermission()
 
+
         binding.progressbar.visible(false)
         adapter = CoffeeHouseInfoAdapter(viewModel)
         binding.rvCoffeeHouseList.adapter = adapter
 
-        viewModel.getCoffeeHouses()
+
 
         viewModel.coffeeHouses.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
                     response.value.let {
                         binding.progressbar.visible(false)
-//                        adapter.submitList(it)
                         viewModel.clearData()
                         complex(it)
 
@@ -88,20 +91,44 @@ class LocationFragment :
 
         binding.btnLogout.setOnClickListener {
             findNavController().navigate(
-                LocationFragmentDirections.actionHomeFragmentToMapFragment()
+                LocationFragmentDirections.actionHomeFragmentToMapFragment(lon = myLocation.longitude
+                        .toString(),
+                    lat = myLocation.latitude.toString(),
+                    )
             )
         }
 
 
     }
 
+    private fun getCurrentLocation() {
+        viewModel.requestLocationUpdates()
+        viewModel.currentLocation.observe(viewLifecycleOwner, Observer { it ->
+            Log.d("MyTAG", "getCurrentLocation: ${it.latitude}, ${it.longitude}")
+            myLocation = Point(it.latitude, it.longitude)
+        })
+
+
+    }
+
+    fun calculateDistance(myLocation: Point, targetLocation: Point): Double {
+
+        // TODO: result
+        return 3.14
+    }
+
     private fun complex(response: LocationResponse) {
         lifecycleScope.launch {
             viewModel.saveLocationResponse(response)
-            viewModel.getLatitude().observe(viewLifecycleOwner, Observer { list ->
-                Log.d("MyTAG", "$list")
-                adapter.submitList(list)
+            viewModel.getDataFromDB().observe(viewLifecycleOwner, Observer { listOfData ->
+//
+                adapter.submitList(listOfData)
+                points = listOfData.map{
+                    it
+                }
+                Log.d("MyTAG", "getPointsFromDB: $points")
             })
+
         }
 
     }
@@ -113,8 +140,8 @@ class LocationFragment :
                 requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
 
-                viewModel.setDistance()
-
+                getCurrentLocation()
+                viewModel.getCoffeeHouses()
             }
 
             shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
@@ -122,7 +149,6 @@ class LocationFragment :
                     .show()
                 pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
-
             else -> {
                 pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
@@ -134,13 +160,14 @@ class LocationFragment :
             ActivityResultContracts.RequestPermission()
         ) {
             if (it) {
+                getCurrentLocation()
+                viewModel.getCoffeeHouses()
                 Toast.makeText(requireContext(), "Location was activated", Toast.LENGTH_SHORT)
                     .show()
             } else {
                 Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
 

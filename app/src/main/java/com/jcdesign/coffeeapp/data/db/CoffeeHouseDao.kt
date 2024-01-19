@@ -19,6 +19,9 @@ interface CoffeeHouseDao {
         @Query("SELECT * FROM coffeehouse")
         fun getLocationResponse(): LiveData<List<LocationResponseItem>>
 
+//        @Query("SELECT point FROM coffeehouse")
+//        fun getPoints(): LiveData<List<LocationResponseItem>>
+
 
         @Query("DELETE FROM coffeehouse")
         suspend fun clearData()

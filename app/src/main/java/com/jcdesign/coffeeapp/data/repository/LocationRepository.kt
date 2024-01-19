@@ -26,6 +26,8 @@ class LocationRepository(
 
     fun getSavedLocationResponse() = db.getCoffeeHouseDao().getLocationResponse()
 
+//    fun getPoints() = db.getCoffeeHouseDao().getPoints()
+
     suspend fun clearData() {
         db.getCoffeeHouseDao().clearData()
     }
