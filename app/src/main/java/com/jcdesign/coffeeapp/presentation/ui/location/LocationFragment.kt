@@ -23,24 +23,27 @@ import com.jcdesign.coffeeapp.data.repository.LocationRepository
 import com.jcdesign.coffeeapp.databinding.FragmentLocationBinding
 import com.jcdesign.coffeeapp.presentation.ui.adapters.CoffeeHouseInfoAdapter
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
+import com.jcdesign.coffeeapp.presentation.ui.enable
 import com.jcdesign.coffeeapp.presentation.ui.visible
 import com.yandex.mapkit.geometry.Point
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlin.math.roundToInt
 
 
 class LocationFragment :
     BaseFragment<LocationViewModel, FragmentLocationBinding, LocationRepository>() {
+
     private lateinit var adapter: CoffeeHouseInfoAdapter
     private lateinit var pLauncher: ActivityResultLauncher<String>
     private lateinit var points: List<LocationResponseItem>
     private lateinit var myLocation: Point
-    private lateinit var targetLocation: Point
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.btnLogout.enable(false)
 
         registerPermissionListener()
         checkLocationPermission()
@@ -55,8 +58,10 @@ class LocationFragment :
             when (response) {
                 is Resource.Success -> {
                     response.value.let {
+
                         binding.progressbar.visible(false)
                         viewModel.clearData()
+
                         complex(it)
 
                     }
@@ -87,17 +92,23 @@ class LocationFragment :
         })
 
 
-
         binding.btnLogout.setOnClickListener {
             findNavController().navigate(
-                LocationFragmentDirections.actionHomeFragmentToMapFragment(lon = myLocation.longitude
+                LocationFragmentDirections.actionHomeFragmentToMapFragment(
+                    lon = myLocation.longitude
                         .toString(),
                     lat = myLocation.latitude.toString(),
-                    )
+                )
             )
         }
 
+    }
 
+    private fun addDistance(oldItem: LocationResponseItem, distance: String) {
+        val newItem = oldItem.copy(distance = distance)
+        lifecycleScope.launch {
+            viewModel.addDistance(newItem)
+        }
     }
 
     private fun getCurrentLocation() {
@@ -111,20 +122,50 @@ class LocationFragment :
 
     }
 
-    fun calculateDistance(myLocation: Point, targetLocation: Point): Double {
+    fun calculateDistance(myLocation: Point, targetLocation: Point): String {
 
+        val earthRadius = 6371
+        var lat1 = myLocation.latitude
+        var lat2 = targetLocation.latitude
+        var lon1 = myLocation.longitude
+        var lon2 = targetLocation.longitude
+        val dLat = Math.toRadians(lat2 - lat1)
+        val dLon = Math.toRadians(lon2 - lon1)
+        lat1 = Math.toRadians(lat1)
+        lat2 = Math.toRadians(lat2)
+        val a = Math.pow(Math.sin(dLat / 2), 2.0) + Math.pow(
+            Math.sin(dLon / 2),
+            2.0
+        ) * Math.cos(lat1) * Math.cos(lat2)
+        val c = 2 * Math.asin(Math.sqrt(a))
+        val result = earthRadius * c
+        return String.format("%.2f".format(result))
 
-        // TODO: result
-        return 3.14
     }
 
     private fun complex(response: LocationResponse) {
+
         lifecycleScope.launch {
             viewModel.saveLocationResponse(response)
+            for (i in 0 until response.size) {
+                val dist = calculateDistance(
+                    myLocation, Point(
+                        response[i].point.latitude.toDouble(), response[i]
+                            .point
+                            .longitude.toDouble()
+                    )
+                )
+                addDistance(response[i], dist)
+                Log.d("MyTAG", "dist: $dist")
+            }
+
+
+
+
             viewModel.getDataFromDB().observe(viewLifecycleOwner, Observer { listOfData ->
 //
                 adapter.submitList(listOfData)
-                points = listOfData.map{
+                points = listOfData.map {
                     it
                 }
                 Log.d("MyTAG", "getPointsFromDB: $points")
@@ -134,7 +175,6 @@ class LocationFragment :
 
     }
 
-
     private fun checkLocationPermission() {
         when {
             ContextCompat.checkSelfPermission(
@@ -142,16 +182,21 @@ class LocationFragment :
             ) == PackageManager.PERMISSION_GRANTED -> {
 
                 getCurrentLocation()
+                binding.btnLogout.enable(true)
 
             }
 
-            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
-                Toast.makeText(requireContext(), "We need your permission", Toast.LENGTH_SHORT)
-                    .show()
-                pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-            }
+//            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
+//                Toast.makeText(
+//                    requireContext(), "Включите геолокацию", Toast.LENGTH_LONG
+//                )
+//                    .show()
+//                pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+//            }
+
             else -> {
                 pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+
 
             }
         }
@@ -163,15 +208,18 @@ class LocationFragment :
         ) {
             if (it) {
                 getCurrentLocation()
+                binding.btnLogout.enable(true)
 
-                Toast.makeText(requireContext(), "Location was activated", Toast.LENGTH_SHORT)
-                    .show()
             } else {
-                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
+
+                Toast.makeText(
+                    requireContext(), "Для корректной работы приложения необходимо разрешение на" +
+                            " получение геолокации пользователя", Toast.LENGTH_LONG
+                )
+                    .show()
             }
         }
     }
-
 
     override fun getViewModel() = LocationViewModel::class.java
 

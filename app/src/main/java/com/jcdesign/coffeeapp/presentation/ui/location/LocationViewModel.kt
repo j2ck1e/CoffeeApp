@@ -16,6 +16,7 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponse
+import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
 import com.jcdesign.coffeeapp.data.repository.LocationRepository
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
@@ -50,6 +51,10 @@ class LocationViewModel(
 
      suspend fun saveLocationResponse(listOfLocationResponse: LocationResponse) {
         repository.upsert(listOfLocationResponse)
+    }
+
+    suspend fun addDistance(item: LocationResponseItem){
+        repository.addDistance(item)
     }
 
      fun getDataFromDB() =

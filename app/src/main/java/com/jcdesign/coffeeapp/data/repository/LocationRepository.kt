@@ -23,10 +23,11 @@ class LocationRepository(
     suspend fun upsert(listOfLocationResponse: LocationResponse) =
         db.getCoffeeHouseDao().upsert(listOfLocationResponse)
 
+    suspend fun addDistance(item: LocationResponseItem) = db.getCoffeeHouseDao().addDistance(item)
+
 
     fun getSavedLocationResponse() = db.getCoffeeHouseDao().getLocationResponse()
 
-//    fun getPoints() = db.getCoffeeHouseDao().getPoints()
 
     suspend fun clearData() {
         db.getCoffeeHouseDao().clearData()

@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponse
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
 
@@ -15,6 +16,9 @@ interface CoffeeHouseDao {
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         suspend fun upsert(listOfDetailWeather: LocationResponse)/*: List<Long>*/
+
+        @Update
+        suspend fun addDistance(item: LocationResponseItem)
 
         @Query("SELECT * FROM coffeehouse")
         fun getLocationResponse(): LiveData<List<LocationResponseItem>>

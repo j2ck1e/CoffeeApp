@@ -14,6 +14,7 @@ import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseIte
 import com.jcdesign.coffeeapp.data.repository.LocationRepository
 import com.jcdesign.coffeeapp.databinding.FragmentMapBinding
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
+import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
@@ -52,14 +53,7 @@ class MapFragment : BaseFragment<MapViewModel, FragmentMapBinding, LocationRepos
                 it
             }
             Log.d("MyTAG", "data from mapfragment: $data")
-            val _points = mutableListOf<Point>()
-            val _names = mutableListOf<String>()
-            for (point in data) {
-                _points.add(Point(point.point.latitude.toDouble(), point.point.longitude.toDouble()))
-                _names.add(point.name)
-                points = _points.toList()
-                names = _names.toList()
-            }
+            getPoints()
             Log.d("MyTAG", "points from mapfragment: ${points.get(1).latitude}, ${points.get(1).longitude}")
 
             val pinsCollection = map.mapObjects.addCollection()
@@ -72,9 +66,25 @@ class MapFragment : BaseFragment<MapViewModel, FragmentMapBinding, LocationRepos
 
 
 
-        map.move(CameraPosition(getCurrentLocation(), 12.0f, 150.0f, 30.0f))
+        map.move(
+            CameraPosition(getCurrentLocation(), 12.0f, 0.0f, 30.0f), Animation(
+                Animation.Type
+                    .SMOOTH, 10f
+            ), null
+        )
 
 
+    }
+
+    private fun getPoints() {
+        val _points = mutableListOf<Point>()
+        val _names = mutableListOf<String>()
+        for (point in data) {
+            _points.add(Point(point.point.latitude.toDouble(), point.point.longitude.toDouble()))
+            _names.add(point.name)
+            points = _points.toList()
+            names = _names.toList()
+        }
     }
 
     private fun setPoints(
