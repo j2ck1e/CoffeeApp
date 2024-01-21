@@ -1,7 +1,6 @@
 package com.jcdesign.coffeeapp.presentation.ui.location
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,9 +51,7 @@ class MapFragment : BaseFragment<MapViewModel, FragmentMapBinding, LocationRepos
             data = listOfData.map {
                 it
             }
-            Log.d("MyTAG", "data from mapfragment: $data")
             getPoints()
-            Log.d("MyTAG", "points from mapfragment: ${points.get(1).latitude}, ${points.get(1).longitude}")
 
             val pinsCollection = map.mapObjects.addCollection()
             val imageProvider = ImageProvider.fromResource(requireContext(), R.mipmap.coffee_cup_location)

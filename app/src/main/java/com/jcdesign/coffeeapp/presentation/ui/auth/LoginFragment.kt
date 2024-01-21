@@ -38,7 +38,7 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
 
                 }
             } else if (it is Resource.Failure) handleApiError(it) {
-//
+
             }
         })
 

@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_logout"
+        app:layout_constraintBottom_toTopOf="@id/btn_to_order"
         tools:listitem="@layout/item_coffeehouse_info"/>
 
     <ProgressBar
@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
-        android:id="@+id/btn_logout"
+        android:id="@+id/btn_to_order"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="На карте"

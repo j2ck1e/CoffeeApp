@@ -5,37 +5,40 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.ui.location.MenuFragment">
+    tools:context=".presentation.ui.location.OrderFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_MenuList"
+        android:id="@+id/rv_coffeeHouseList"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_to_order"
-        app:spanCount="2"
-        tools:listitem="@layout/item_menu_info" />
+        app:layout_constraintBottom_toTopOf="@id/tv_message"
+        tools:listitem="@layout/item_order"/>
 
-    <ProgressBar
-        android:id="@+id/progressbar"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:text="Время ожидания заказа\n15 минут!\nСпасибо, что выбрали нас!"
+        android:textAlignment="center"
+        android:textColor="#846340"
+        android:textSize="28sp"
+        app:layout_constraintTop_toBottomOf="@id/rv_coffeeHouseList"
+        app:layout_constraintBottom_toTopOf="@id/btn_to_order"
+        />
 
     <Button
         android:id="@+id/btn_to_order"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Перейти к оплате"
+        android:text="Оплатить"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/rv_MenuList"
-        app:layout_constraintStart_toStartOf="@+id/rv_MenuList" />
+        app:layout_constraintEnd_toEndOf="@+id/rv_coffeeHouseList"
+        app:layout_constraintStart_toStartOf="@+id/rv_coffeeHouseList" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

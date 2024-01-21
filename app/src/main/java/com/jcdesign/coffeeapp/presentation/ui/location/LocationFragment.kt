@@ -43,7 +43,7 @@ class LocationFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnLogout.enable(false)
+        binding.btnToOrder.enable(false)
 
         registerPermissionListener()
         checkLocationPermission()
@@ -92,7 +92,7 @@ class LocationFragment :
         })
 
 
-        binding.btnLogout.setOnClickListener {
+        binding.btnToOrder.setOnClickListener {
             findNavController().navigate(
                 LocationFragmentDirections.actionHomeFragmentToMapFragment(
                     lon = myLocation.longitude
@@ -112,10 +112,8 @@ class LocationFragment :
     }
 
     private fun getCurrentLocation() {
-        Log.d("MyTAG", "getCurrentLocation...")
         viewModel.requestLocationUpdates()
         viewModel.currentLocation.observe(viewLifecycleOwner, Observer { it ->
-            Log.d("MyTAG", "getCurrentLocation: ${it.latitude}, ${it.longitude}")
             myLocation = Point(it.latitude, it.longitude)
         })
         viewModel.getCoffeeHouses()
@@ -156,19 +154,19 @@ class LocationFragment :
                     )
                 )
                 addDistance(response[i], dist)
-                Log.d("MyTAG", "dist: $dist")
+
             }
 
 
 
 
             viewModel.getDataFromDB().observe(viewLifecycleOwner, Observer { listOfData ->
-//
+
                 adapter.submitList(listOfData)
                 points = listOfData.map {
                     it
                 }
-                Log.d("MyTAG", "getPointsFromDB: $points")
+
             })
 
         }
@@ -182,17 +180,9 @@ class LocationFragment :
             ) == PackageManager.PERMISSION_GRANTED -> {
 
                 getCurrentLocation()
-                binding.btnLogout.enable(true)
+                binding.btnToOrder.enable(true)
 
             }
-
-//            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
-//                Toast.makeText(
-//                    requireContext(), "Включите геолокацию", Toast.LENGTH_LONG
-//                )
-//                    .show()
-//                pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-//            }
 
             else -> {
                 pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -208,7 +198,7 @@ class LocationFragment :
         ) {
             if (it) {
                 getCurrentLocation()
-                binding.btnLogout.enable(true)
+                binding.btnToOrder.enable(true)
 
             } else {
 
