@@ -37,7 +37,9 @@ class LoginFragment : BaseFragment<AuthViewModel, FragmentLoginBinding, AuthRepo
                     requireActivity().startNewActivity(LocationActivity::class.java)
 
                 }
-            } else if (it is Resource.Failure) handleApiError(it) {login()}
+            } else if (it is Resource.Failure) handleApiError(it) {
+//
+            }
         })
 
         binding.etPass.addTextChangedListener {

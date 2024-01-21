@@ -33,6 +33,7 @@ class AuthViewModel(
     fun register(email: String, password: String) = viewModelScope.launch {
         _registerResponse.value = Resource.Loading
         _registerResponse.value = repository.register(email, password)
+
     }
 
     suspend fun saveAuthToken(token: String) {

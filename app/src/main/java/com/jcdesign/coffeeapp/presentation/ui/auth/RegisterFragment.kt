@@ -17,6 +17,7 @@ import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.repository.AuthRepository
 import com.jcdesign.coffeeapp.databinding.FragmentRegisterBinding
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
+import com.jcdesign.coffeeapp.presentation.ui.enable
 import com.jcdesign.coffeeapp.presentation.ui.handleApiError
 import com.jcdesign.coffeeapp.presentation.ui.location.LocationActivity
 import com.jcdesign.coffeeapp.presentation.ui.startNewActivity
@@ -38,26 +39,7 @@ class RegisterFragment : BaseFragment<AuthViewModel, FragmentRegisterBinding, Au
                     requireActivity().startNewActivity(LocationActivity::class.java)
 
                 }
-            } else if (it is Resource.Failure) handleApiError(it) {
-                binding.regBtn.setOnClickListener {
-                    if (validateEmail(binding.etEmail, binding.tilEmail) && validatePassword(
-                            binding.etFirstPass,
-                            binding.tilFirstPass
-                        ) && validateConPassword(
-                            binding.etFirstPass,
-                            binding.etSecondPass,
-                            binding.tilSecondPass
-                        )
-                    ) {
-
-                        register()
-
-                    } else {
-                        Toast.makeText(requireContext(), "Failed", Toast.LENGTH_LONG).show()
-                    }
-
-                }
-            }
+            } else if (it is Resource.Failure) handleApiError(it) { }
         })
 
 
@@ -91,16 +73,19 @@ class RegisterFragment : BaseFragment<AuthViewModel, FragmentRegisterBinding, Au
         })
 
 
+
         binding.regBtn.setOnClickListener {
             if (validateEmail(binding.etEmail, binding.tilEmail) && validatePassword(
                     binding.etFirstPass,
                     binding.tilFirstPass
-                ) && validateConPassword(binding.etFirstPass, binding.etSecondPass, binding.tilSecondPass)
+                ) && validateConPassword(
+                    binding.etFirstPass,
+                    binding.etSecondPass,
+                    binding.tilSecondPass
+                )
             ) {
 
                 register()
-
-            } else {
 
             }
 
