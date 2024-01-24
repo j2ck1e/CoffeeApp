@@ -50,7 +50,7 @@ class LocationViewModel(
     }
 
      suspend fun saveLocationResponse(listOfLocationResponse: LocationResponse) {
-        repository.upsert(listOfLocationResponse)
+        repository.upsertLocations(listOfLocationResponse)
     }
 
     suspend fun addDistance(item: LocationResponseItem){

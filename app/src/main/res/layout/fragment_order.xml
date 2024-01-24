@@ -8,7 +8,7 @@
     tools:context=".presentation.ui.location.OrderFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_coffeeHouseList"
+        android:id="@+id/rv_orderList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -28,7 +28,7 @@
         android:textAlignment="center"
         android:textColor="#846340"
         android:textSize="28sp"
-        app:layout_constraintTop_toBottomOf="@id/rv_coffeeHouseList"
+        app:layout_constraintTop_toBottomOf="@id/rv_orderList"
         app:layout_constraintBottom_toTopOf="@id/btn_to_order"
         />
 
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:text="Оплатить"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/rv_coffeeHouseList"
-        app:layout_constraintStart_toStartOf="@+id/rv_coffeeHouseList" />
+        app:layout_constraintEnd_toEndOf="@+id/rv_orderList"
+        app:layout_constraintStart_toStartOf="@+id/rv_orderList" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

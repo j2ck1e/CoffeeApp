@@ -8,9 +8,10 @@ import androidx.room.TypeConverters
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponse
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
 import com.jcdesign.coffeeapp.data.network.response.location.Point
+import com.jcdesign.coffeeapp.data.network.response.menu.MenuResponseItem
 
 @Database(
-    entities = [LocationResponseItem::class],
+    entities = [LocationResponseItem::class, MenuResponseItem::class],
     version = 1,
     exportSchema = true
 )
