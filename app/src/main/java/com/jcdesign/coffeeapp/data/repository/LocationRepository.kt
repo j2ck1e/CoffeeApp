@@ -27,12 +27,14 @@ class LocationRepository(
         db.getCoffeeHouseDao().upsertOrder(listOfMenu)
 
     suspend fun addDistance(item: LocationResponseItem) = db.getCoffeeHouseDao().addDistance(item)
-    suspend fun changeCount(item: MenuResponseItem) = db.getCoffeeHouseDao().changeCount(item)
+    suspend fun addCount(item: MenuResponseItem) = db.getCoffeeHouseDao().addCount(item)
 
 
     fun getSavedLocationResponse() = db.getCoffeeHouseDao().getLocationResponse()
 
-    fun getSavedOrder() = db.getCoffeeHouseDao().getOrder()
+    fun getMenuDb() = db.getCoffeeHouseDao().getMenuDb()
+
+    fun getOrderById(itemId: Int) = db.getCoffeeHouseDao().getOrderById(itemId)
 
 
     suspend fun clearData() = db.getCoffeeHouseDao().clearData()

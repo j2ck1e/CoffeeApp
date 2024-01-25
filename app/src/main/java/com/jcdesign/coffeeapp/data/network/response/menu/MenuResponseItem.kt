@@ -9,10 +9,10 @@ import java.io.Serializable
 
 @Entity(tableName = "menu")
 data class MenuResponseItem(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     val id: Int,
     val imageURL: String,
     var name: String,
     var price: Int,
-    var count: Int = 0
-) : Serializable
+    var count: Int
+)

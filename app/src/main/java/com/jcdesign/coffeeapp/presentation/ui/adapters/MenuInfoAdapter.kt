@@ -25,24 +25,23 @@ class MenuInfoAdapter :
             Glide.with(holder.itemView).load(menu.imageURL).into(ivDrink)
             tvDrinkName.text = menu.name
             tvPrice.text = menu.price.toString()
-            tvCount.text = "0"
+            tvCount.text = menu.count.toString()
             btnMinus.setOnClickListener {
-                onMenuClickListener?.onBtnMinusClick(holder)
-            }
-            btnPlus.setOnClickListener {
-                onMenuClickListener?.onBtnPlusClick(holder)
+                onMenuClickListener?.onBtnMinusClick(menu)
 
             }
-            root.setOnClickListener {
-                onMenuClickListener?.onMenuClick(menu)
+            btnPlus.setOnClickListener {
+                onMenuClickListener?.onBtnPlusClick(menu)
+
+
             }
+
         }
     }
 
     interface OnMenuClickListener {
-        fun onMenuClick(menu: MenuResponseItem)
-        fun onBtnMinusClick(holder: MenuInfoViewHolder)
-        fun onBtnPlusClick(holder: MenuInfoViewHolder)
+        fun onBtnMinusClick(menu: MenuResponseItem)
+        fun onBtnPlusClick(menu: MenuResponseItem)
     }
 
 
