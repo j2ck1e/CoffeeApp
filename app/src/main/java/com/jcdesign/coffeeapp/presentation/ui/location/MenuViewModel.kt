@@ -1,13 +1,12 @@
 package com.jcdesign.coffeeapp.presentation.ui.location
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.response.menu.MenuResponse
 import com.jcdesign.coffeeapp.data.network.response.menu.MenuResponseItem
-import com.jcdesign.coffeeapp.data.repository.LocationRepository
+import com.jcdesign.coffeeapp.domain.LocationRepository
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,6 +31,10 @@ class MenuViewModel(
     }
 
     fun getMenuDb() = repository.getMenuDb()
+
+    fun getOrderDb() = repository.getOrderDb()
+
+    fun clearMenuDb() = viewModelScope.launch { repository.clearMenuDb() }
 
     fun incrCount(itemId: Int) = viewModelScope.launch {
         withContext(Dispatchers.IO) {

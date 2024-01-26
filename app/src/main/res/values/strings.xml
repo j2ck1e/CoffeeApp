@@ -6,9 +6,15 @@
     <string name="email_example">example@example.ru</string>
     <string name="stars">******</string>
     <string name="e_mail_txt">e-mail</string>
-    <string name="passeord_txt">Пароль</string>
+    <string name="password_txt">Пароль</string>
     <string name="second_pass_txt">Повторите пароль</string>
     <string name="enter">Войти</string>
-    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="don_t_have_an_account">Don\'t have an account? </string>
     <string name="register_now">Register Now</string>
+    <string name="toPay">Оплатить</string>
+    <string name="thanks">Время ожидания заказа\n15 минут!\nСпасибо, что выбрали нас!</string>
+    <string name="toOrder">Перейти к оплате</string>
+    <string name="toMap">На карте</string>
+    <string name="help_msg">Для корректной работы приложения необходимо разрешение на</string>
+    <string name="help_msg_2">" получение геолокации пользователя"</string>
 </resources>

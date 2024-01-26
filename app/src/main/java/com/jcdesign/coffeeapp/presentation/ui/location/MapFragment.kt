@@ -10,7 +10,7 @@ import com.jcdesign.coffeeapp.R
 import com.jcdesign.coffeeapp.data.db.CoffeeHouseDatabase
 import com.jcdesign.coffeeapp.data.network.LocationApi
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
-import com.jcdesign.coffeeapp.data.repository.LocationRepository
+import com.jcdesign.coffeeapp.domain.LocationRepository
 import com.jcdesign.coffeeapp.databinding.FragmentMapBinding
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
 import com.yandex.mapkit.Animation
@@ -32,15 +32,6 @@ class MapFragment : BaseFragment<MapViewModel, FragmentMapBinding, LocationRepos
     private lateinit var points: List<Point>
     private lateinit var names: List<String>
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        MapKitFactory.initialize(requireContext())
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -74,14 +65,8 @@ class MapFragment : BaseFragment<MapViewModel, FragmentMapBinding, LocationRepos
     }
 
     private fun getPoints() {
-        val _points = mutableListOf<Point>()
-        val _names = mutableListOf<String>()
-        for (point in data) {
-            _points.add(Point(point.point.latitude.toDouble(), point.point.longitude.toDouble()))
-            _names.add(point.name)
-            points = _points.toList()
-            names = _names.toList()
-        }
+        points = data.map { Point(it.point.latitude.toDouble(), it.point.longitude.toDouble()) }
+        names = data.map { it.name }
     }
 
     private fun setPoints(
@@ -133,11 +118,6 @@ class MapFragment : BaseFragment<MapViewModel, FragmentMapBinding, LocationRepos
         return LocationRepository(db, api)
     }
 
-    companion object {
-        private val POINT = Point(55.751280, 37.629720)
-        private val POSITION = CameraPosition(POINT, 17.0f, 150.0f, 30.0f)
-
-    }
 }
 
 

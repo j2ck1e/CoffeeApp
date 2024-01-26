@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="Время ожидания заказа\n15 минут!\nСпасибо, что выбрали нас!"
+        android:text="@string/thanks"
         android:textAlignment="center"
         android:textColor="#846340"
         android:textSize="28sp"
@@ -36,7 +36,8 @@
         android:id="@+id/btn_to_order"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Оплатить"
+        android:textSize="18sp"
+        android:text="@string/toPay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rv_orderList"
         app:layout_constraintStart_toStartOf="@+id/rv_orderList" />

@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.response.LoginResponse
 import com.jcdesign.coffeeapp.data.network.response.RegisterResponse
-import com.jcdesign.coffeeapp.data.repository.AuthRepository
+import com.jcdesign.coffeeapp.domain.AuthRepository
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseViewModel
 import kotlinx.coroutines.launch
 

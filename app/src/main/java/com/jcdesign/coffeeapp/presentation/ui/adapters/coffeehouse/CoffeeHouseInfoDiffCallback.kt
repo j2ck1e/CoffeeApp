@@ -1,4 +1,4 @@
-package com.jcdesign.coffeeapp.presentation.ui.adapters
+package com.jcdesign.coffeeapp.presentation.ui.adapters.coffeehouse
 
 import androidx.recyclerview.widget.DiffUtil
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponse

@@ -1,4 +1,4 @@
-package com.jcdesign.coffeeapp.presentation.ui.adapters
+package com.jcdesign.coffeeapp.presentation.ui.adapters.order
 
 import androidx.recyclerview.widget.RecyclerView
 import com.jcdesign.coffeeapp.databinding.ItemMenuInfoBinding

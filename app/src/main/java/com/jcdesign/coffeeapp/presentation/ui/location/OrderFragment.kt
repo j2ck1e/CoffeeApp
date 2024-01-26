@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.jcdesign.coffeeapp.data.db.CoffeeHouseDatabase
 import com.jcdesign.coffeeapp.data.network.LocationApi
 import com.jcdesign.coffeeapp.data.network.response.menu.MenuResponseItem
-import com.jcdesign.coffeeapp.data.repository.LocationRepository
+import com.jcdesign.coffeeapp.domain.LocationRepository
 import com.jcdesign.coffeeapp.databinding.FragmentOrderBinding
-import com.jcdesign.coffeeapp.presentation.ui.adapters.MenuInfoAdapter
-import com.jcdesign.coffeeapp.presentation.ui.adapters.OrderAdapter
+import com.jcdesign.coffeeapp.presentation.ui.adapters.order.OrderAdapter
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -30,7 +30,7 @@ class OrderFragment : BaseFragment<MenuViewModel, FragmentOrderBinding, Location
         adapter = OrderAdapter()
         binding.rvOrderList.adapter = adapter
 
-        viewModel.getMenuDb().observe(viewLifecycleOwner, Observer { list ->
+        viewModel.getOrderDb().observe(viewLifecycleOwner, Observer { list ->
             adapter.submitList(list)
         })
 
@@ -47,6 +47,10 @@ class OrderFragment : BaseFragment<MenuViewModel, FragmentOrderBinding, Location
                 viewModel.incrCount(order.id)
 
             }
+        }
+        
+        binding.btnToOrder.setOnClickListener {
+            Toast.makeText(requireContext(), "К оплате", Toast.LENGTH_SHORT).show()
         }
 
     }

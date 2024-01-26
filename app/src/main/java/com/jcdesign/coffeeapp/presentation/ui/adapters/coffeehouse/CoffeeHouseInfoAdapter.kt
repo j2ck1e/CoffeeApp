@@ -1,9 +1,7 @@
-package com.jcdesign.coffeeapp.presentation.ui.adapters
+package com.jcdesign.coffeeapp.presentation.ui.adapters.coffeehouse
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ListAdapter
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
 import com.jcdesign.coffeeapp.databinding.ItemCoffeehouseInfoBinding

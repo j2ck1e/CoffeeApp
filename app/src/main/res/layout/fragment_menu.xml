@@ -33,7 +33,8 @@
         android:id="@+id/btn_to_order"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Перейти к оплате"
+        android:text="@string/toOrder"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rv_MenuList"
         app:layout_constraintStart_toStartOf="@+id/rv_MenuList" />

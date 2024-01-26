@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.jcdesign.coffeeapp.R
 import com.jcdesign.coffeeapp.data.network.AuthApi
 import com.jcdesign.coffeeapp.data.network.Resource
-import com.jcdesign.coffeeapp.data.repository.AuthRepository
+import com.jcdesign.coffeeapp.domain.AuthRepository
 import com.jcdesign.coffeeapp.databinding.FragmentLoginBinding
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
 import com.jcdesign.coffeeapp.presentation.ui.enable

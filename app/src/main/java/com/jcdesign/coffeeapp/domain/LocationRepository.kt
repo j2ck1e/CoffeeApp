@@ -1,4 +1,4 @@
-package com.jcdesign.coffeeapp.data.repository
+package com.jcdesign.coffeeapp.domain
 
 import com.jcdesign.coffeeapp.data.db.CoffeeHouseDatabase
 import com.jcdesign.coffeeapp.data.network.LocationApi
@@ -33,13 +33,14 @@ class LocationRepository(
     fun getSavedLocationResponse() = db.getCoffeeHouseDao().getLocationResponse()
 
     fun getMenuDb() = db.getCoffeeHouseDao().getMenuDb()
+    fun getOrderDb() = db.getCoffeeHouseDao().getOrderDb()
 
     fun getOrderById(itemId: Int) = db.getCoffeeHouseDao().getOrderById(itemId)
 
 
-    suspend fun clearData() = db.getCoffeeHouseDao().clearData()
+    suspend fun clearCoffeeHouseDb() = db.getCoffeeHouseDao().clearCoffeeHouseDb()
 
 
-    suspend fun clearOrder() = db.getCoffeeHouseDao().clearOrder()
+    suspend fun clearMenuDb() = db.getCoffeeHouseDao().clearMenuDb()
 
 }

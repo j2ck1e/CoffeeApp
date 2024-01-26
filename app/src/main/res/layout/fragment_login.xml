@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:layout_margin="16dp"
     tools:context=".presentation.ui.auth.LoginFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -13,53 +14,60 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:layout_marginStart="16dp"
         android:text="@string/e_mail_txt"
         android:textColor="@color/str_color" />
 
-    <EditText
-        android:id="@+id/et_email"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_email"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/rounded_corner"
         android:hint="@string/email_example"
-        android:inputType="textEmailAddress"
-        android:padding="8dp"
-        android:textSize="18sp" />
+        app:errorEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColorHint="#757575" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/passeord_txt"
+        android:text="@string/password_txt"
         android:textColor="@color/str_color" />
 
-    <EditText
-        android:id="@+id/et_pass"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_pass"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/rounded_corner"
         android:hint="@string/stars"
-        android:inputType="textPassword"
-        android:padding="8dp"
-        android:textSize="18sp" />
+        android:measureWithLargestChild="false"
+        android:nestedScrollingEnabled="false"
+        app:endIconMode="password_toggle"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@null">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textColorHint="#757575" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <Button
         android:id="@+id/login_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="64dp"
         android:text="@string/enter"
         android:textSize="18sp" />
 

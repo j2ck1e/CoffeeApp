@@ -1,4 +1,4 @@
-package com.jcdesign.coffeeapp.presentation.ui.adapters
+package com.jcdesign.coffeeapp.presentation.ui.adapters.menu
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -24,7 +24,7 @@ class MenuInfoAdapter :
         with(holder.binding) {
             Glide.with(holder.itemView).load(menu.imageURL).into(ivDrink)
             tvDrinkName.text = menu.name
-            tvPrice.text = menu.price.toString()
+            tvPrice.text = menu.price.toString() + " руб."
             tvCount.text = menu.count.toString()
             btnMinus.setOnClickListener {
                 onMenuClickListener?.onBtnMinusClick(menu)

@@ -19,7 +19,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_email"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email_example"
@@ -29,7 +29,6 @@
             android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corner"
             android:inputType="textEmailAddress"
             android:textColorHint="#757575" />
 
@@ -39,12 +38,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:text="@string/passeord_txt"
+        android:text="@string/password_txt"
         android:textColor="@color/str_color" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_first_pass"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/stars"
@@ -58,7 +57,6 @@
             android:id="@+id/et_first_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corner"
             android:inputType="textPassword"
             android:textColorHint="#757575" />
 
@@ -73,7 +71,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_second_pass"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/stars"
@@ -85,7 +83,6 @@
             android:id="@+id/et_second_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corner"
             android:inputType="textPassword"
             android:textColorHint="#757575" />
 
@@ -94,6 +91,7 @@
 
     <Button
         android:id="@+id/reg_btn"
+        android:layout_marginTop="64dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/registration"

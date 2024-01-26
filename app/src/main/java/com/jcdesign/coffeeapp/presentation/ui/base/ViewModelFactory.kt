@@ -3,8 +3,8 @@ package com.jcdesign.coffeeapp.presentation.ui.base
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.jcdesign.coffeeapp.data.repository.AuthRepository
-import com.jcdesign.coffeeapp.data.repository.LocationRepository
+import com.jcdesign.coffeeapp.domain.AuthRepository
+import com.jcdesign.coffeeapp.domain.LocationRepository
 import com.jcdesign.coffeeapp.domain.BaseRepository
 import com.jcdesign.coffeeapp.presentation.ui.auth.AuthViewModel
 import com.jcdesign.coffeeapp.presentation.ui.location.LocationViewModel

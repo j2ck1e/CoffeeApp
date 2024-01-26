@@ -32,7 +32,8 @@
         android:id="@+id/btn_to_order"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="На карте"
+        android:text="@string/toMap"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rv_coffeeHouseList"
         app:layout_constraintStart_toStartOf="@+id/rv_coffeeHouseList" />

@@ -14,14 +14,15 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.jcdesign.coffeeapp.R
 import com.jcdesign.coffeeapp.data.db.CoffeeHouseDatabase
 import com.jcdesign.coffeeapp.data.network.LocationApi
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponse
 import com.jcdesign.coffeeapp.data.network.response.location.LocationResponseItem
-import com.jcdesign.coffeeapp.data.repository.LocationRepository
+import com.jcdesign.coffeeapp.domain.LocationRepository
 import com.jcdesign.coffeeapp.databinding.FragmentLocationBinding
-import com.jcdesign.coffeeapp.presentation.ui.adapters.CoffeeHouseInfoAdapter
+import com.jcdesign.coffeeapp.presentation.ui.adapters.coffeehouse.CoffeeHouseInfoAdapter
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
 import com.jcdesign.coffeeapp.presentation.ui.enable
 import com.jcdesign.coffeeapp.presentation.ui.visible
@@ -29,7 +30,6 @@ import com.yandex.mapkit.geometry.Point
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlin.math.roundToInt
 
 
 class LocationFragment :
@@ -60,7 +60,7 @@ class LocationFragment :
                     response.value.let {
 
                         binding.progressbar.visible(false)
-                        viewModel.clearData()
+                        viewModel.clearCoffeeHouseDb()
 
                         complex(it)
 
@@ -112,15 +112,22 @@ class LocationFragment :
     }
 
     private fun getCurrentLocation() {
-        viewModel.requestLocationUpdates()
-        viewModel.currentLocation.observe(viewLifecycleOwner, Observer { it ->
-            myLocation = Point(it.latitude, it.longitude)
-        })
-        viewModel.getCoffeeHouses()
+        try {
+            viewModel.requestLocationUpdates()
+            viewModel.currentLocation.observe(viewLifecycleOwner, Observer { it ->
+                myLocation = Point(it.latitude, it.longitude)
+                Log.d("MyTAG", "myLocation: ${myLocation.latitude}, ${myLocation.longitude}")
+            })
+            viewModel.getCoffeeHouses()
+        } catch (e: Exception) {
+            // Обработка исключения, например, логирование или вывод сообщения об ошибке
+            Log.e("LocationFragment", "Exception in getCurrentLocation: ${e.message}")
+            // Дополнительные действия в случае ошибки, если необходимо
+        }
 
     }
 
-    fun calculateDistance(myLocation: Point, targetLocation: Point): String {
+    private fun calculateDistance(myLocation: Point, targetLocation: Point): String {
 
         val earthRadius = 6371
         var lat1 = myLocation.latitude
@@ -143,52 +150,50 @@ class LocationFragment :
 
     private fun complex(response: LocationResponse) {
 
-        lifecycleScope.launch {
-            viewModel.saveLocationResponse(response)
-            for (i in 0 until response.size) {
-                val dist = calculateDistance(
-                    myLocation, Point(
-                        response[i].point.latitude.toDouble(), response[i]
-                            .point
-                            .longitude.toDouble()
+        try {
+            lifecycleScope.launch {
+                viewModel.saveLocationResponse(response)
+                for (i in 0 until response.size) {
+                    val dist = calculateDistance(
+                        myLocation, Point(
+                            response[i].point.latitude.toDouble(), response[i]
+                                .point
+                                .longitude.toDouble()
+                        )
                     )
-                )
-                addDistance(response[i], dist)
-
-            }
-
-
-
-
-            viewModel.getDataFromDB().observe(viewLifecycleOwner, Observer { listOfData ->
-
-                adapter.submitList(listOfData)
-                points = listOfData.map {
-                    it
+                    addDistance(response[i], dist)
                 }
+                viewModel.getDataFromDB().observe(viewLifecycleOwner, Observer { listOfData ->
+                    adapter.submitList(listOfData)
+                    points = listOfData.map { it }
+                })
+            }
+        } catch (e: Exception) {
 
-            })
+            Log.e("LocationFragment", "Exception in complex: ${e.message}")
 
         }
 
     }
 
     private fun checkLocationPermission() {
-        when {
-            ContextCompat.checkSelfPermission(
-                requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED -> {
+        try {
+            when (PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
+                ) -> {
+                    getCurrentLocation()
+                    binding.btnToOrder.enable(true)
+                }
 
-                getCurrentLocation()
-                binding.btnToOrder.enable(true)
-
+                else -> {
+                    pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                }
             }
+        } catch (e: Exception) {
 
-            else -> {
-                pLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            Log.e("LocationFragment", "Exception in checkLocationPermission: ${e.message}")
 
-
-            }
         }
     }
 
@@ -203,8 +208,8 @@ class LocationFragment :
             } else {
 
                 Toast.makeText(
-                    requireContext(), "Для корректной работы приложения необходимо разрешение на" +
-                            " получение геолокации пользователя", Toast.LENGTH_LONG
+                    requireContext(), getString(R.string.help_msg) +
+                            getString(R.string.help_msg_2), Toast.LENGTH_LONG
                 )
                     .show()
             }
@@ -221,6 +226,11 @@ class LocationFragment :
         val api = remoteDataSource.buildApi(LocationApi::class.java, token)
         val db = CoffeeHouseDatabase.invoke(requireContext())
         return LocationRepository(db, api)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.stopLocationUpdates()
     }
 
 

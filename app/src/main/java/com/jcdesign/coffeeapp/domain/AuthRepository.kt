@@ -1,4 +1,4 @@
-package com.jcdesign.coffeeapp.data.repository
+package com.jcdesign.coffeeapp.domain
 
 import com.jcdesign.coffeeapp.data.UserPreferences
 import com.jcdesign.coffeeapp.data.network.AuthApi

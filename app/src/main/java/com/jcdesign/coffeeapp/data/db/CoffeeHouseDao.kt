@@ -30,15 +30,17 @@ interface CoffeeHouseDao {
 
     @Query("SELECT * FROM menu")
     fun getMenuDb(): LiveData<List<MenuResponseItem>>
+    @Query("SELECT * FROM menu WHERE count>0")
+    fun getOrderDb(): LiveData<List<MenuResponseItem>>
 
     @Query("SELECT * FROM menu WHERE id=:itemId")
     fun getOrderById(itemId: Int): MenuResponseItem
 
     @Query("DELETE FROM coffeehouse")
-    suspend fun clearData()
+    suspend fun clearCoffeeHouseDb()
 
     @Query("DELETE FROM menu")
-    suspend fun clearOrder()
+    suspend fun clearMenuDb()
 
 
 }

@@ -14,9 +14,9 @@ import com.jcdesign.coffeeapp.data.db.CoffeeHouseDatabase
 import com.jcdesign.coffeeapp.data.network.LocationApi
 import com.jcdesign.coffeeapp.data.network.Resource
 import com.jcdesign.coffeeapp.data.network.response.menu.MenuResponseItem
-import com.jcdesign.coffeeapp.data.repository.LocationRepository
+import com.jcdesign.coffeeapp.domain.LocationRepository
 import com.jcdesign.coffeeapp.databinding.FragmentMenuBinding
-import com.jcdesign.coffeeapp.presentation.ui.adapters.MenuInfoAdapter
+import com.jcdesign.coffeeapp.presentation.ui.adapters.menu.MenuInfoAdapter
 import com.jcdesign.coffeeapp.presentation.ui.base.BaseFragment
 import com.jcdesign.coffeeapp.presentation.ui.visible
 import kotlinx.coroutines.flow.first
@@ -41,9 +41,11 @@ class MenuFragment :
 
 
 
+
         viewModel.menu.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is Resource.Success -> {
+                    viewModel.clearMenuDb()
                     lifecycleScope.launch { viewModel.upsertOrder(it.value.toList()) }
                     viewModel.getMenuDb().observe(viewLifecycleOwner, Observer { orderList ->
                         adapter.submitList(orderList)
